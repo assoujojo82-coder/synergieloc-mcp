@@ -2,6 +2,8 @@
 
 **Give your AI agent exact French real-estate legal answers instead of hallucinations.**
 
+[![synergieloc MCP server](https://glama.ai/mcp/servers/assoujojo82-coder/synergieloc-mcp/badges/score.svg)](https://glama.ai/mcp/servers/assoujojo82-coder/synergieloc-mcp)
+
 Remote MCP server (Streamable HTTP) exposing regulatory-grade calculations from
 [synergieloc.fr](https://synergieloc.fr), a French property-management platform.
 
