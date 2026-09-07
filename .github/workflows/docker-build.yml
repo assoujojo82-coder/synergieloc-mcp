@@ -1,14 +1,13 @@
-# Construit l'image du pont stdio a chaque poussee.
+# Construit l'image stdio a chaque poussee.
 #
 # Pourquoi ce workflow existe : Glama note la maintenance d'un depot, et son
 # rapport signalait « CI status unavailable ». Un depot sans integration
 # continue est indistinguable d'un depot dont les builds echouent -- l'absence
 # de signal se lit comme un mauvais signal.
 #
-# Le build seul FAIT ECHOUER le job ; la verification du pont, non. Le pont
-# depend d'un service distant (synergieloc.fr) : une coupure reseau chez GitHub
-# rendrait la CI rouge sans qu'aucun code ne soit en cause, et une CI rouge par
-# intermittence vaut moins que pas de CI du tout.
+# Le build et le handshake stdio hors-ligne DOIVENT faire echouer le job.
+# La verification du serveur heberge, non : elle depend de synergieloc.fr,
+# et une CI rouge par intermittence vaut moins que pas de CI du tout.
 name: build
 
 on:
@@ -23,16 +22,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build the stdio bridge image
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Offline stdio handshake
+        run: npm ci && npm test
+
+      - name: Build the stdio image
         run: docker build -t synergieloc-mcp .
 
-      - name: Bridge starts and reaches the hosted server
+      - name: Image reaches the hosted server
         continue-on-error: true
         run: |
           set +e
-          { sleep 8; echo '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'; sleep 12; } \
-            | timeout 60 docker run -i --rm synergieloc-mcp > out.txt 2> err.txt
-          echo "--- stderr ---"; head -8 err.txt
-          grep -q "Connected to remote server" err.txt \
-            && echo "OK: le pont a joint https://synergieloc.fr/mcp" \
-            || echo "AVERTISSEMENT: pont non confirme (service distant ?)"
+          npm ci
+          MCP_URL=https://synergieloc.fr/mcp timeout 30 npm test \
+            && echo "OK: tools/list a joint le serveur heberge" \
+            || echo "AVERTISSEMENT: serveur heberge non confirme"

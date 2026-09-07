@@ -1,0 +1,25 @@
+{
+  "name": "synergieloc-mcp",
+  "version": "1.1.1",
+  "description": "Stdio adapter for the hosted synergieloc MCP (buildings + French real-estate law). Production endpoint: https://synergieloc.fr/mcp",
+  "homepage": "https://synergieloc.fr",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/assoujojo82-coder/synergieloc-mcp.git"
+  },
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "synergieloc-mcp": "./server.mjs"
+  },
+  "scripts": {
+    "start": "node ./server.mjs",
+    "test": "node ./scripts/ci-stdio.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

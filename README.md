@@ -81,7 +81,29 @@ curl -X POST https://synergieloc.fr/mcp -H "Content-Type: application/json" \
 Add `"--header", "Authorization: Bearer YOUR_KEY"` once you have a key — or let
 your agent call `obtenir_cle_api` and get one by itself.
 
-## Docker (stdio bridge to the hosted server)
+## Local stdio (Glama)
+
+The hosted server is `https://synergieloc.fr/mcp`. This repo ships a local
+stdio adapter (`server.mjs`) so Glama can build and score it without putting
+a remote URL in CMD.
+
+```bash
+npm install
+node ./server.mjs
+```
+
+The 41 tool schemas are embedded. `tools/list` still works if the hosted
+endpoint is unreachable; `tools/call` proxies upstream when network (and,
+when required, `API_KEY`) is available.
+
+### Glama build spec
+
+1. Open https://glama.ai/mcp/servers/assoujojo82-coder/synergieloc-mcp/admin/dockerfile
+2. Build steps: `["npm install"]`
+3. CMD arguments: `["node", "./server.mjs"]`
+4. Click **Build**, then **Make Release** once the test is green
+
+## Docker
 
 ```bash
 docker build -t synergieloc-mcp .
