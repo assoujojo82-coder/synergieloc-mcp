@@ -1,0 +1,38 @@
+# Construit l'image du pont stdio a chaque poussee.
+#
+# Pourquoi ce workflow existe : Glama note la maintenance d'un depot, et son
+# rapport signalait « CI status unavailable ». Un depot sans integration
+# continue est indistinguable d'un depot dont les builds echouent -- l'absence
+# de signal se lit comme un mauvais signal.
+#
+# Le build seul FAIT ECHOUER le job ; la verification du pont, non. Le pont
+# depend d'un service distant (synergieloc.fr) : une coupure reseau chez GitHub
+# rendrait la CI rouge sans qu'aucun code ne soit en cause, et une CI rouge par
+# intermittence vaut moins que pas de CI du tout.
+name: build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build the stdio bridge image
+        run: docker build -t synergieloc-mcp .
+
+      - name: Bridge starts and reaches the hosted server
+        continue-on-error: true
+        run: |
+          set +e
+          { sleep 8; echo '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'; sleep 12; } \
+            | timeout 60 docker run -i --rm synergieloc-mcp > out.txt 2> err.txt
+          echo "--- stderr ---"; head -8 err.txt
+          grep -q "Connected to remote server" err.txt \
+            && echo "OK: le pont a joint https://synergieloc.fr/mcp" \
+            || echo "AVERTISSEMENT: pont non confirme (service distant ?)"
