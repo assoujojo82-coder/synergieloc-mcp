@@ -7,9 +7,10 @@ mistakes before they reach the drawing.**
 [![synergieloc MCP server](https://glama.ai/mcp/servers/assoujojo82-coder/synergieloc-mcp/badges/score.svg)](https://glama.ai/mcp/servers/assoujojo82-coder/synergieloc-mcp)
 
 Remote MCP server (Streamable HTTP) from
-[synergieloc.fr](https://synergieloc.fr). **41 tools**, of which 9 draw and
-verify buildings and 32 answer French property-management questions with their
-legal basis.
+[synergieloc.fr](https://synergieloc.fr). **70 tools**: 38 draw, check and
+document buildings, 15 handle French rental management with their legal
+basis, 11 help trades (quotes, work orders, site reports) and 6 are service
+tools (API key, guides, best practices).
 
 - **Endpoint**: `https://synergieloc.fr/mcp` (JSON-RPC 2.0, Streamable HTTP)
 - **Auth**: **optional to connect.** `initialize`, `tools/list`,
@@ -33,6 +34,12 @@ legal basis.
 | `cao_visite_camera` | Camera control for that walkthrough |
 | `cao_mobilier` | **Free, no key.** Furniture catalogue with standard dimensions |
 
+And 29 more: IFC import, validation, clash detection and BCF export, IDS
+checks, building-permit figures (`cao_permis`), 4D build sequence (`cao_4d`),
+drawing sets (`cao_carnet`), RE2020 indicators, cost estimate, schedules,
+energy, sunlight, planning rules, reinforcement, version compare and merge,
+parametric families. `tools/list` is the full, live list.
+
 The verifier is the point. It is **deterministic** — same scene, same verdict,
 every time — and each rule carries its source: NF DTU 51.11 for floor
 coverings, NF P01-012 for guardrails, Blondel's law for stairs, art. 671 of
@@ -53,7 +60,10 @@ a false sense of safety.
 | `regularisation_charges` | Service-charge reconciliation by *tantièmes* + pro-rata | Decree 87-713 |
 | `quittance_loyer` | Compliant rent receipt | Art. 21, law 89-462 |
 | `avenant_revision_irl` | Rent-revision notification letter | Art. 17-1, law 89-462 |
-| `crg_proprietaire`, `fiscal_synthese`, `edl_etat_des_lieux`, … | 28 more: management reports, tax summaries, inventories, quotes, invoices | |
+| `avis_echeance`, `relance_impaye`, `crg_proprietaire`, `fiscal_synthese`, `edl_etat_des_lieux`, … | 11 more: due notices, unpaid-rent reminders, management reports, tax summaries, inventories, mandates, Factur-X invoices | |
+
+For trades, 11 more tools draft quotes, work orders, job sheets, site reports,
+materials lists, mileage logs and invoice reminders.
 
 Every answer carries its legal basis and its warnings. All tools are
 **stateless**: input data is used for the calculation and never stored.
@@ -92,7 +102,7 @@ npm install
 node ./server.mjs
 ```
 
-The 41 tool schemas are embedded. `tools/list` still works if the hosted
+The 70 tool schemas are embedded. `tools/list` still works if the hosted
 endpoint is unreachable; `tools/call` proxies upstream when network (and,
 when required, `API_KEY`) is available.
 
@@ -125,10 +135,10 @@ calendar day, with no end date. No e-mail, no signup form.
 
 | Plan | Price | Units included |
 |---|---|---|
-| Agent | **4.99 €/month** | 2,000 |
-| Plateforme | **24.99 €/month** | 15,000 |
+| Agent | **49.99 €/month** | 2,000 |
+| Plateforme | **149.99 €/month** | 15,000 |
 
-Overage 0.04 €/unit. Units per call: calculation 1, reconciliation 2, CAD 2,
+Overage 0.04 €/unit (Agent), 0.03 €/unit (Plateforme). Units per call: calculation 1, reconciliation 2, CAD 2,
 document 4. Checking a scene costs **0**.
 
 Live and authoritative: `GET /api/v1/tarifs`.
