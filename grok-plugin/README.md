@@ -9,7 +9,9 @@ Connects Grok Build to the hosted Synergieloc MCP server
   (`cao_verifier`), export a dimensioned DXF and an IFC 4 model, run BIM rule
   checks (`cao_bim_*`), clash detection and BCF, quantities, cost estimates,
   schedules, energy and sunlight studies, a French building-permit draft, a 4D
-  site schedule and a 4K walkthrough.
+  site schedule and a 4K walkthrough. The checker applies the building code of
+  the country the scene declares: France (default), EU harmonised standards,
+  US (IRC/NEC), UK, Germany or China; the permit draft is French.
 - **French rental management**: IRL rent review, service-charge settlement,
   rent receipts and reminders, each with its legal basis.
 

@@ -1,7 +1,7 @@
 {
   "name": "synergieloc",
-  "version": "1.0.0",
-  "description": "Buildings and French real-estate law for Grok Build, through the hosted Synergieloc MCP server: describe a building in JSON and get a checked scene, dimensioned DXF, IFC 4 model, BIM rule checks, quantities, cost estimates, permit drafts and a 4K walkthrough; plus French rental management (IRL rent review, service-charge settlement, rent receipts) with their legal basis.",
+  "version": "1.0.1",
+  "description": "Buildings and real-estate tools for Grok Build, through the hosted Synergieloc MCP server: describe a building in JSON and get a checked scene, dimensioned DXF, IFC 4 model, BIM rule checks, quantities, cost estimates and a 4K walkthrough, checked against the code of the declared country (France, EU, US, UK, Germany, China); plus French building-permit drafts and French rental management (IRL rent review, service-charge settlement, rent receipts) with their legal basis.",
   "author": {
     "name": "Synergieloc",
     "url": "https://synergieloc.fr"
@@ -9,5 +9,11 @@
   "homepage": "https://synergieloc.fr/en/api-ia",
   "repository": "https://github.com/assoujojo82-coder/synergieloc-mcp",
   "license": "MIT",
-  "keywords": ["synergieloc", "synergieloc cao", "synergieloc bim", "synergieloc mcp", "synergieloc irl"]
+  "keywords": [
+    "synergieloc",
+    "synergieloc cao",
+    "synergieloc bim",
+    "synergieloc mcp",
+    "synergieloc irl"
+  ]
 }
