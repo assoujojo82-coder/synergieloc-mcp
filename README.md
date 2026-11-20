@@ -1,22 +1,21 @@
-# synergieloc — Buildings and French real-estate law, for AI agents
+# Synergieloc — CAD/BIM, industrial engineering and property tools for AI agents
 
-**Your agent describes a building in JSON. It gets back a dimensioned DXF, an
-IFC model, a 3D scene, a 4K walkthrough — and a verifier that catches the
-mistakes before they reach the drawing.**
+**One MCP endpoint for building design, industrial simulation and property workflows.**
+Describe a building in JSON to get a dimensioned DXF, an IFC model and a 3D tour;
+use industrial tools for FEM/CFD studies and property tools for operational tasks.
 
 [![synergieloc MCP server](https://glama.ai/mcp/servers/assoujojo82-coder/synergieloc-mcp/badges/score.svg)](https://glama.ai/mcp/servers/assoujojo82-coder/synergieloc-mcp)
 
 Remote MCP server (Streamable HTTP) from
-[synergieloc.fr](https://synergieloc.fr). **70 tools**: 38 draw, check and
-document buildings, 15 handle French rental management with their legal
-basis, 11 help trades (quotes, work orders, site reports) and 6 are service
-tools (API key, guides, best practices).
+[synergieloc.fr](https://synergieloc.fr). The live catalogue spans CAD/BIM,
+industrial engineering (FEM 3D, thermomechanics, CFD and seismic dynamics),
+property management and service tools. Use `tools/list` for the current inventory.
 
 - **Endpoint**: `https://synergieloc.fr/mcp` (JSON-RPC 2.0, Streamable HTTP)
 - **Auth**: **optional to connect.** `initialize`, `tools/list`,
   `guides_liste`, `guide_lire` and `obtenir_cle_api` need no key at all — call
   `obtenir_cle_api` to get one instantly, no e-mail, no signup form.
-- **Official registry**: [`fr.synergieloc/immobilier`](https://registry.modelcontextprotocol.io/v0/servers?search=synergieloc) v1.1.0, active
+- **Official registry**: [`fr.synergieloc/immobilier`](https://registry.modelcontextprotocol.io/v0/servers?search=synergieloc) v1.2.2, active. The historic identifier remains stable for existing clients.
 - **Free**: CAD generation costs nothing until 2026-12-31. Check the live date
   at `GET /api/v1/tarifs` — it is authoritative, this page is not.
 
@@ -40,33 +39,30 @@ drawing sets (`cao_carnet`), RE2020 indicators, cost estimate, schedules,
 energy, sunlight, planning rules, reinforcement, version compare and merge,
 parametric families. `tools/list` is the full, live list.
 
-The verifier is the point. It is **deterministic** — same scene, same verdict,
-every time — and each rule carries its source: NF DTU 51.11 for floor
-coverings, NF P01-012 for guardrails, Blondel's law for stairs, art. 671 of
-the Civil Code for planting distances, NF C 15-100 for electrical heights.
-Rules are tagged by jurisdiction (`fr`, `eu`, `us`, `asia`) because they
-**contradict each other**: a stair that satisfies the US IRC is outside
-Blondel's range, and a 914 mm guardrail is legal in the US and not in France.
+The verifier is **deterministic** — same scene, same verdict. Rules carry their
+source and are tagged by jurisdiction (`fr`, `eu`, `us`, `asia`); the caller must
+select the applicable jurisdiction. A result for one jurisdiction must not be
+presented as universally compliant.
 
 Read what it checks — and what it does not yet check — at
 `GET /api/v1/cao/savoir`. Free, no key. A missing check that is declared beats
 a false sense of safety.
 
-## French property-management law
+## Property-management workflows
 
-| Tool | What it does | Legal basis |
-|---|---|---|
-| `irl_revision_loyer` | Rent revision capped by the INSEE IRL index | Art. 17-1, law 89-462 |
-| `regularisation_charges` | Service-charge reconciliation by *tantièmes* + pro-rata | Decree 87-713 |
-| `quittance_loyer` | Compliant rent receipt | Art. 21, law 89-462 |
-| `avenant_revision_irl` | Rent-revision notification letter | Art. 17-1, law 89-462 |
-| `avis_echeance`, `relance_impaye`, `crg_proprietaire`, `fiscal_synthese`, `edl_etat_des_lieux`, … | 11 more: due notices, unpaid-rent reminders, management reports, tax summaries, inventories, mandates, Factur-X invoices | |
+| Tool | What it does |
+|---|---|
+| `irl_revision_loyer` | Indexed rent-revision calculation |
+| `regularisation_charges` | Service-charge reconciliation by ownership shares and time period |
+| `quittance_loyer` | Rent receipt generation |
+| `avenant_revision_irl` | Rent-revision notification letter |
+| `avis_echeance`, `relance_impaye`, `crg_proprietaire`, `fiscal_synthese`, `edl_etat_des_lieux`, … | Due notices, reminders, management reports, summaries, inventories, mandates and invoices |
 
 For trades, 11 more tools draft quotes, work orders, job sheets, site reports,
 materials lists, mileage logs and invoice reminders.
 
-Every answer carries its legal basis and its warnings. All tools are
-**stateless**: input data is used for the calculation and never stored.
+Jurisdiction-dependent tools document their own scope; do not assume that a
+calculation applies in every country. The public API endpoints are stateless.
 
 ## Try it — no key needed
 
