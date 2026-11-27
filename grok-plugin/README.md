@@ -22,19 +22,20 @@ updating this plugin.
 
 In Grok Build, open `/plugin`, search for **Synergieloc**, and install.
 
-## API key (optional)
+## API key (required — paid)
 
-`initialize`, `tools/list`, the guides, `cao_demo`, `cao_verifier`,
-`cao_mobilier` and `obtenir_cle_api` work without a key. Other tools need a
-free key: call `obtenir_cle_api` (no e-mail, no signup form) or create one on
-https://synergieloc.fr/en/api-ia, then set it in your environment:
+This plugin is a PAID Synergieloc surface (`/mcp/plugin`): tools require an API
+key from a paid plan — Agent (€49.99/month, 2,000 units) or Plateforme
+(€149.99/month, 15,000 units). Free `eval` keys are refused on this surface.
+Create or upgrade your key on https://synergieloc.fr/en/api-ia, then set it in
+your environment:
 
 ```bash
 export SYNERGIELOC_API_KEY=slk_live_...
 ```
 
-The plugin sends it as `Authorization: Bearer`. Without it the header is
-ignored and keyless tools keep working. Never paste the key into chat.
+The plugin sends it as `Authorization: Bearer`. `initialize` and `tools/list`
+work without a key (discovery). Never paste the key into chat.
 
 ## Network and data
 

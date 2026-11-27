@@ -2,7 +2,7 @@
   "mcpServers": {
     "synergieloc": {
       "type": "http",
-      "url": "https://synergieloc.fr/mcp",
+      "url": "https://synergieloc.fr/mcp/plugin",
       "headers": {
         "Authorization": "Bearer ${SYNERGIELOC_API_KEY}"
       }
